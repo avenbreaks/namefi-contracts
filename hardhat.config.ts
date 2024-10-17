@@ -9,7 +9,7 @@ import './tasks/mgmt';
 dotenv.config();
 
 const getMnemonic = () => {
-  return process.env.MNEMONIC || "test test test test test test test test test test test junk";
+  return process.env.MNEMONIC || "fit auction color sing inspire observe buddy era win tower video jar erode hobby enrich mutual mechanic parent easy render depart snow vague syrup";
 };
 
 const config: HardhatUserConfig = {
@@ -47,6 +47,12 @@ const config: HardhatUserConfig = {
     },
     sepolia: {
       url: `https://sepolia.infura.io/v3/${process.env.INFURA_API_KEY}`,
+      accounts: {
+        mnemonic: process.env.MNEMONIC || "test test test test test test test test test test test junk",
+      },
+    },
+    glide: {
+      url: `https://rpc-api.glideprotocol.xyz/l2-rpc`,
       accounts: {
         mnemonic: process.env.MNEMONIC || "test test test test test test test test test test test junk",
       },
@@ -90,6 +96,7 @@ const config: HardhatUserConfig = {
     apiKey: {
       mainnet: process.env.ETHERSCAN_API_KEY as string,
       mainnet_blockscout: process.env.BLOCKSCOUT_API_KEY as string,
+      glide: process.env.BLOCKSCOUT_API_KEY as string,
       sepolia: process.env.ETHERSCAN_API_KEY as string,
       goerli: process.env.ETHERSCAN_API_KEY as string,
       goerli_blockscout: process.env.ETHERSCAN_API_KEY as string,
