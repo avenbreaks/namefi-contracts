@@ -16,6 +16,7 @@ const config: HardhatUserConfig = {
   solidity: {
     version: "0.8.24",
     settings: {
+      viaIR: true,
       optimizer: {
         enabled: true,
         runs: 200,
@@ -112,6 +113,14 @@ const config: HardhatUserConfig = {
         urls: {
           apiURL: "https://api-goerli.etherscan.io/api",
           browserURL: "https://goerli.etherscan.io"
+        }
+      },
+      {
+        network: "glide",
+        chainId: 253,
+        urls: {
+          apiURL: "https://blockchain-explorer.glideprotocol.xyz/api",
+          browserURL: "https://blockchain-explorer.glideprotocol.xyz/"
         }
       },
       {

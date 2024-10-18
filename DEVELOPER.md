@@ -6,14 +6,15 @@ The following `goerli` can be replaced with other chain name.
 ### Step 1: Deploy ProxyAdmin
 
 ```sh
-```sh
-npx hardhat namefi-nick-deploy-proxy-admin --network goerli --nonce 0x00000000000000000000000000000000000000005715a2bbff5b843d84e1daf8
+npx hardhat namefi-nick-deploy-proxy-admin --network glide --nonce 0x00000000000000000000000000000000000000005715a2bbff5b843d84e1daf8
 ```
+
+NamefiProxyAdmin: 0xB10CAE146ff3bcF6086f15B9Fa4eDE9E273d693C
 
 When failed to verify: 
 
 ```sh
-npx hardhat verify --network goerli --contract contracts/NamefiProxyAdmin.sol:NamefiProxyAdmin 0x00000000009209F45C2822E3f11b7a73014130F1 0x01Bf7f00540988622a32de1089B7DeA09a867188
+npx hardhat verify --network glide --contract contracts/NamefiProxyAdmin.sol:NamefiProxyAdmin 0xB10CAE146ff3bcF6086f15B9Fa4eDE9E273d693C 0x5Ea918796146E03b4C61d09f9Cfa11Cb3B10ce17
 ```
 
 ### Step 2: Deploy NFT

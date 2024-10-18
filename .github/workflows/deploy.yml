@@ -1,0 +1,59 @@
+name: Deployment
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+# Environment variables
+env:
+  MNEMONIC: ${{ secrets.MNEMONIC }}
+  BLOCKSCOUT_API_KEY: ${{ vars.BLOCKSCOUT_API_KEY }}
+
+jobs:
+  build:
+  deploy:
+    name: Deploy Contracts
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js 18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Deploy ProxyAdmin
+        run: |
+          npx hardhat namefi-nick-deploy-proxy-admin --network glide --nonce 0x00000000000000000000000000000000000000005715a2bbff5b843d84e1daf8
+
+      - name: Verify ProxyAdmin
+        run: |
+          npx hardhat verify --network glide --contract contracts/NamefiProxyAdmin.sol:NamefiProxyAdmin 0x00000000009209F45C2822E3f11b7a73014130F1 0x01Bf7f00540988622a32de1089B7DeA09a867188
+
+      - name: Deploy NFT Logic Contract
+        run: |
+          npx hardhat namefi-nick-deploy-logic --network glide --logic-contract-name NamefiNFT --nonce 0x0000000000000000000000000000000000000000de26213fdd792730e8a811cb --dry-run
+
+      - name: Deploy NFT Proxy Contract
+        run: |
+          npx hardhat namefi-nick-deploy-proxy --network glide --logic-contract-name NamefiNFT --logic-address 0x00000000f34FA72595f0B1FA90718Cdd865D6d44 --admin-address 0x00000000009209F45C2822E3f11b7a73014130F1 --nonce 0x0000000000000000000000000000000000000000ebf9c231fad1d33999ec0da2 --dry-run
+
+      - name: Deploy Service Credit Logic Contract
+        run: |
+          npx hardhat namefi-nick-deploy-logic --network glide --logic-contract-name NamefiServiceCredit --nonce 0x00000000000000000000000000000000000000005c3c1f7f262e7a0fa9eaa081 --dry-run
+
+      - name: Deploy Service Credit Proxy Contract
+        run: |
+          npx hardhat namefi-nick-deploy-proxy --network glide --logic-contract-name NamefiServiceCredit --logic-address 0x000000000283368D2e1200074DEf151D09B3a04a --admin-address 0x00000000009209F45C2822E3f11b7a73014130F1 --nonce 0x0000000000000000000000000000000000000000489dffcf4b44ee1731dc251d --dry-run
+
+      - name: Set Base URI
+        run: |
+          npx hardhat namefi-set-base-uri --new-base-uri https://md.namefi.dev/goerli/ --network glide
